@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="key_playpause">Abspielen/Pausieren</string>
+	<string name="key_stop">Stop</string>
+	<string name="key_next">Weiter</string>
+	<string name="key_previous">Zurück</string>
+	<string name="key_rewind">Zurückspulen</string>
+	<string name="key_ffw">Vorspulen</string>
+	<string name="key_play">Abspielen</string>
+	<string name="key_pause">Pausieren</string>
+	<string name="key_close">Schließen</string>
+	<string name="key_eject">Auswerfen</string>
+	<string name="key_record">Aufnahme</string>
+	<string name="key_unknown">Unbekannte Taste</string>
+	<string name="notification_text">Dienst aktiv. Berühren, um zu konfigurieren.</string>
+	<string name="notification_action_hide">Verstecken</string>
+	<string name="pref_foreground">Vordergrund-Modus</string>
+	<string name="pref_foreground_summary">Zeigt eine Benachrichtigung an. Auswählen, falls der Dienst abstürzt.</string>
+	<string name="pref_move">Position ändern</string>
+	<string name="pref_move_summary_checked">Ziehen Sie den Knopf an die gewünschte Position.</string>
+	<string name="pref_move_summary_unchecked">Auswählen, um die Position des Knopfes anzupassen.</string>
+	<string name="pref_move_summary_disabled">Starten Sie den Dienst, um die Position zu verändern.</string>
+	<string name="pref_padding">Knopfgröße</string>
+	<string name="pref_start_service">Knopf sichtbar</string>
+	<string name="pref_start_service_summary_stopping">Beende…</string>
+	<string name="pref_start_service_summary_starting">Starte…</string>
+	<string name="pref_start_service_summary_started">Gestartet.</string>
+	<string name="pref_start_service_summary_stopped">Auswählen, um den Dienst zu starten.</string>
+
+</resources>

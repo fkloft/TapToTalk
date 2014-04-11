@@ -17,12 +17,12 @@
 	<string name="notification_text">Overlay enabled. Tap to configure.</string>
 	<string name="notification_action_hide">Hide</string>
 	<string name="pref_foreground">Foreground mode</string>
-	<string name="pref_foreground_summary">Shows a notification. Check this if the service gets killed randomly</string>
+	<string name="pref_foreground_summary">Shows a notification. Check this if the service gets killed randomly.</string>
 	<string name="pref_move">Change position</string>
 	<string name="pref_move_summary_checked">Drag the button to the desired position.</string>
 	<string name="pref_move_summary_unchecked">Select to change button position.</string>
 	<string name="pref_move_summary_disabled">Start service to change position.</string>
-	<string name="pref_padding">Button padding</string>
+	<string name="pref_padding">Button size</string>
 	<string name="pref_start_service">Overlay enabled</string>
 	<string name="pref_start_service_summary_stopping">Stopping…</string>
 	<string name="pref_start_service_summary_starting">Starting…</string>
