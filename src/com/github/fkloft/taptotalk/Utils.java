@@ -6,8 +6,11 @@ import android.view.KeyEvent;
 
 public final class Utils
 {
+	public static final int KEYCODE_DEFAULT = KeyEvent.KEYCODE_MEDIA_RECORD;
+	
 	/** must be same order as in res/values/strings.xml */
 	public static int[] KEYCODES = {
+		KeyEvent.KEYCODE_MEDIA_RECORD,
 		KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE,
 		KeyEvent.KEYCODE_MEDIA_STOP,
 		KeyEvent.KEYCODE_MEDIA_NEXT,
@@ -17,8 +20,7 @@ public final class Utils
 		KeyEvent.KEYCODE_MEDIA_PLAY,
 		KeyEvent.KEYCODE_MEDIA_PAUSE,
 		KeyEvent.KEYCODE_MEDIA_CLOSE,
-		KeyEvent.KEYCODE_MEDIA_EJECT,
-		KeyEvent.KEYCODE_MEDIA_RECORD
+		KeyEvent.KEYCODE_MEDIA_EJECT
 	};
 	
 	public static SparseIntArray KEYCODE_LABELS = new SparseIntArray();
@@ -56,17 +58,17 @@ public final class Utils
 	
 	public static String[] getKeycodeLabels(Context context)
 	{
-		String[] labels = new String[KEYCODE_LABELS.size()];
+		String[] labels = new String[KEYCODES.length];
 		for(int i = 0; i < labels.length; i++)
-			labels[i] = context.getString(KEYCODE_LABELS.valueAt(i));
+			labels[i] = context.getString(KEYCODE_LABELS.get(KEYCODES[i]));
 		return labels;
 	}
 	
 	public static String[] getKeycodeValues()
 	{
-		String[] labels = new String[KEYCODE_LABELS.size()];
+		String[] labels = new String[KEYCODES.length];
 		for(int i = 0; i < labels.length; i++)
-			labels[i] = Integer.toString(KEYCODE_LABELS.keyAt(i));
+			labels[i] = Integer.toString(KEYCODES[i]);
 		return labels;
 	}
 }

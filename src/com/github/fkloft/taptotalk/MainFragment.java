@@ -8,7 +8,6 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.view.KeyEvent;
 
 import com.github.fkloft.taptotalk.OverlayService.Listener;
 
@@ -31,7 +30,7 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 		mPrefMove = (CheckBoxPreference) findPreference("pref_move");
 		
 		mPrefKeycode = (ListPreference) findPreference("pref_keycode");
-		mPrefKeycode.setDefaultValue(Integer.toString(KeyEvent.KEYCODE_MEDIA_RECORD));
+		mPrefKeycode.setDefaultValue(Integer.toString(Utils.KEYCODE_DEFAULT));
 		mPrefKeycode.setEntries(Utils.getKeycodeLabels(getActivity()));
 		mPrefKeycode.setEntryValues(Utils.getKeycodeValues());
 		
@@ -102,8 +101,9 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 		{
 			try
 			{
-				int value = Integer.parseInt(mPrefs.getString(key, Integer.toString(KeyEvent.KEYCODE_MEDIA_RECORD)));
+				int value = Integer.parseInt(mPrefs.getString(key, Integer.toString(Utils.KEYCODE_DEFAULT)));
 				preference.setSummary(Utils.KEYCODE_LABELS.get(value));
+				preference.setIcon(Utils.KEYCODE_ICONS.get(value));
 			}
 			catch(NumberFormatException e)
 			{

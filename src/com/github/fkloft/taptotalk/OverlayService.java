@@ -62,7 +62,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 	private OverlayButton mButton;
 	private boolean mDragging = false;
 	private PointF mDragOffset = new PointF(0, 0);
-	private int mKeyCode = KeyEvent.KEYCODE_MEDIA_RECORD;
+	private int mKeyCode = Utils.KEYCODE_DEFAULT;
 	private boolean mLandscape;
 	private LayoutParams mLayoutParams;
 	private PointF mPosition = new PointF(0, 0);
@@ -287,7 +287,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 				if(mPressed)
 					sendKeyEvent(false);
 				
-				mKeyCode = Integer.parseInt(mPrefs.getString(key, Integer.toString(KeyEvent.KEYCODE_MEDIA_RECORD)));
+				mKeyCode = Integer.parseInt(mPrefs.getString(key, Integer.toString(Utils.KEYCODE_DEFAULT)));
 				mButton.setImageResource(Utils.KEYCODE_ICONS.get(mKeyCode));
 				mButton.setContentDescription(getString(Utils.KEYCODE_LABELS.get(mKeyCode)));
 			}
