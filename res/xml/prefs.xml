@@ -3,7 +3,7 @@
 	xmlns:robobunny="http://robobunny.com">
 
 	<PreferenceCategory>
-		<CheckBoxPreference
+		<SwitchPreference
 			android:defaultValue="false"
 			android:key="pref_start_service"
 			android:title="@string/pref_start_service"/>
@@ -17,7 +17,7 @@
 			android:defaultValue="16"
 			android:key="pref_padding"
 			android:max="100"
-			android:title="Button padding"
+			android:title="@string/pref_padding"
 			robobunny:min="1"
 			robobunny:unitsLeft=""
 			robobunny:unitsRight=""/>
@@ -25,6 +25,12 @@
 		<ListPreference
 			android:key="pref_keycode"
 			android:title="Key to emulate"/>
+
+		<CheckBoxPreference
+			android:defaultValue="true"
+			android:key="pref_foreground"
+			android:summary="@string/pref_foreground_summary"
+			android:title="@string/pref_foreground"/>
 	</PreferenceCategory>
 
 </PreferenceScreen>

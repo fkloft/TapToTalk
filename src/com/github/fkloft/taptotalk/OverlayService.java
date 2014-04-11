@@ -1,5 +1,6 @@
 package com.github.fkloft.taptotalk;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -69,6 +70,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 	private SharedPreferences mPrefs;
 	private boolean mPressed = false;
 	private WindowManager mWindowManager;
+	private Notification mNotification;
 	
 	public OverlayService()
 	{}
@@ -175,15 +177,18 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		mLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 		readPosition();
 		
-		startForeground(NOTIFICATION_MAIN, new NotificationCompat.Builder(this)
+		mNotification = new NotificationCompat.Builder(this)
 			.setSmallIcon(R.drawable.ic_launcher)
 			.setContentTitle(getString(R.string.app_name))
 			.setContentText(getString(R.string.notification_text))
 			.setPriority(NotificationCompat.PRIORITY_MIN)
 			.setContentIntent(PendingIntent.getActivity(this, REQUEST_MAIN, new Intent(this, MainActivity.class), 0))
-			.addAction(R.drawable.ic_action_remove, "Hide",
+			.addAction(R.drawable.ic_action_remove, getString(R.string.notification_action_hide),
 				PendingIntent.getBroadcast(this, REQUEST_CLOSE, new Intent(ACTION_HIDE), 0))
-			.build());
+			.build();
+		
+		if(mPrefs.getBoolean("pref_foreground", true))
+			startForeground(NOTIFICATION_MAIN, mNotification);
 		
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
@@ -280,6 +285,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 			}
 			mButton.setDragable(move);
 		}
+		
 		if("pref_keycode".equals(key))
 		{
 			try
@@ -294,10 +300,19 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 			catch(NumberFormatException e)
 			{}
 		}
+		
 		if("pref_padding".equals(key))
 		{
 			int value = mPrefs.getInt(key, 16);
 			mButton.setPadding(value, value, value, value);
+		}
+		
+		if("pref_foreground".equals(key))
+		{
+			if(mPrefs.getBoolean(key, true))
+				startForeground(NOTIFICATION_MAIN, mNotification);
+			else
+				stopForeground(true);
 		}
 	}
 	
