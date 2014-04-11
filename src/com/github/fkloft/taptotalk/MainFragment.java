@@ -34,7 +34,7 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 		mPrefMove = (CheckBoxPreference) findPreference("pref_move");
 		
 		mPrefKeycode = (ListPreference) findPreference("pref_keycode");
-		mPrefKeycode.setDefaultValue(KeyEvent.KEYCODE_MEDIA_RECORD);
+		mPrefKeycode.setDefaultValue(Integer.toString(KeyEvent.KEYCODE_MEDIA_RECORD));
 		mPrefKeycode.setEntries(Utils.getKeycodeLabels(getActivity()));
 		mPrefKeycode.setEntryValues(Utils.getKeycodeValues());
 		
@@ -93,7 +93,7 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 		{
 			try
 			{
-				int value = Integer.parseInt(mPrefs.getString(key, null));
+				int value = Integer.parseInt(mPrefs.getString(key, Integer.toString(KeyEvent.KEYCODE_MEDIA_RECORD)));
 				preference.setSummary(Utils.KEYCODE_LABELS.get(value));
 			}
 			catch(NumberFormatException e)
