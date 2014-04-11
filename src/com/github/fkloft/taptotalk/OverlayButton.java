@@ -1,12 +1,15 @@
 package com.github.fkloft.taptotalk;
 
 import android.content.Context;
+import android.graphics.PointF;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.ImageButton;
 
 public class OverlayButton extends ImageButton
 {
-	private OnPressedHandler mSetPressedHandler;
+	private boolean mMove = false;
+	private OverlayService mOverlayService;
 	
 	public OverlayButton(Context context)
 	{
@@ -23,21 +26,37 @@ public class OverlayButton extends ImageButton
 		super(context, attrs, defStyle);
 	}
 	
-	public void setOnPressedHandler(OnPressedHandler onPressedHandler)
+	@Override
+	public boolean onTouchEvent(MotionEvent event)
 	{
-		this.mSetPressedHandler = onPressedHandler;
+		if(mOverlayService != null && mMove)
+		{
+			PointF point = new PointF(event.getRawX(), event.getRawY());
+			if(event.getActionMasked() == MotionEvent.ACTION_DOWN)
+				mOverlayService.onDragStart(point);
+			if(event.getActionMasked() == MotionEvent.ACTION_MOVE)
+				mOverlayService.onDragMove(point);
+			if(event.getActionMasked() == MotionEvent.ACTION_UP)
+				mOverlayService.onDragEnd(point);
+		}
+		return super.onTouchEvent(event);
+	}
+	
+	public void setDragable(boolean move)
+	{
+		mMove = move;
 	}
 	
 	@Override
 	public void setPressed(boolean pressed)
 	{
 		super.setPressed(pressed);
-		if(mSetPressedHandler != null)
-			mSetPressedHandler.onPressed(pressed);
+		if(mOverlayService != null && !mMove)
+			mOverlayService.onButtonPressed(pressed);
 	}
 	
-	public static interface OnPressedHandler
+	public void setService(OverlayService overlayService)
 	{
-		public void onPressed(boolean pressed);
+		mOverlayService = overlayService;
 	}
 }

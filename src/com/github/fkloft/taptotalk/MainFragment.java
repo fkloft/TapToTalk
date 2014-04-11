@@ -14,10 +14,9 @@ import com.github.fkloft.taptotalk.OverlayService.Listener;
 
 public class MainFragment extends PreferenceFragment implements Listener, OnSharedPreferenceChangeListener
 {
-	private SharedPreferences mPrefs;
-	private CheckBoxPreference mPrefStartStop;
-	private CheckBoxPreference mPrefMove;
 	private ListPreference mPrefKeycode;
+	private CheckBoxPreference mPrefMove;
+	private SharedPreferences mPrefs;
 	
 	public void onCreate(android.os.Bundle savedInstanceState)
 	{
@@ -28,8 +27,6 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 		
 		mPrefs = getPreferenceManager().getSharedPreferences();
 		mPrefs.registerOnSharedPreferenceChangeListener(this);
-		
-		mPrefStartStop = (CheckBoxPreference) findPreference("pref_start_service");
 		
 		mPrefMove = (CheckBoxPreference) findPreference("pref_move");
 		
@@ -52,6 +49,16 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 		super.onDestroy();
 		OverlayService.setListener(null);
 		mPrefs.unregisterOnSharedPreferenceChangeListener(this);
+	}
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		mPrefs
+			.edit()
+			.putBoolean("pref_move", false)
+			.apply();
 	}
 	
 	@Override
@@ -89,7 +96,7 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 			preference.setEnabled(isRunning == shouldRun);
 			mPrefMove.setEnabled(isRunning && shouldRun);
 		}
-		else if("pref_keycode".equals(key))
+		if("pref_keycode".equals(key))
 		{
 			try
 			{
