@@ -8,6 +8,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.TwoStatePreference;
 
 import com.github.fkloft.taptotalk.OverlayService.Listener;
 
@@ -93,7 +94,7 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 			else
 				preference.setSummary(R.string.pref_start_service_summary_stopped);
 			
-			((CheckBoxPreference) preference).setChecked(shouldRun);
+			((TwoStatePreference) preference).setChecked(shouldRun);
 			preference.setEnabled(isRunning == shouldRun);
 			mPrefMove.setEnabled(isRunning && shouldRun);
 		}
