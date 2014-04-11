@@ -7,7 +7,6 @@ import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,37 +37,17 @@ public class OverlayService extends Service implements OverlayButton.OnPressedHa
 	public OverlayService()
 	{}
 	
-	private void sendKeyDown()
+	private void sendKeyEvent(boolean pressed)
 	{
-		if(mPressed)
+		if(pressed == mPressed)
 			return;
-		mPressed = true;
+		mPressed = pressed;
 		
-		Log.i("service", "key down");
 		long time = SystemClock.uptimeMillis();
 		
-		KeyEvent downKeyEvent = new KeyEvent(time, time, KeyEvent.ACTION_DOWN, mKeyCode, 0);
+		KeyEvent event = new KeyEvent(time, time, pressed ? KeyEvent.ACTION_DOWN : KeyEvent.ACTION_UP, mKeyCode, 0);
 		Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-		intent.putExtra(Intent.EXTRA_KEY_EVENT, downKeyEvent);
-		// Note that sendOrderedBroadcast is needed since there is only
-		// one official receiver of the media button intents at a time
-		// (controlled via AudioManager) so the system needs to figure
-		// out who will handle it rather than just send it to everyone.
-		sendOrderedBroadcast(intent, null);
-	}
-	
-	private void sendKeyUp()
-	{
-		if(!mPressed)
-			return;
-		mPressed = false;
-		
-		Log.i("service", "key up");
-		long time = SystemClock.uptimeMillis();
-		
-		KeyEvent downKeyEvent = new KeyEvent(time, time, KeyEvent.ACTION_UP, mKeyCode, 0);
-		Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-		intent.putExtra(Intent.EXTRA_KEY_EVENT, downKeyEvent);
+		intent.putExtra(Intent.EXTRA_KEY_EVENT, event);
 		// Note that sendOrderedBroadcast is needed since there is only
 		// one official receiver of the media button intents at a time
 		// (controlled via AudioManager) so the system needs to figure
@@ -126,7 +105,7 @@ public class OverlayService extends Service implements OverlayButton.OnPressedHa
 		stopForeground(true);
 		
 		if(mPressed)
-			sendKeyUp();
+			sendKeyEvent(false);
 		
 		mWindowManager.removeView(mButton);
 	}
@@ -134,10 +113,8 @@ public class OverlayService extends Service implements OverlayButton.OnPressedHa
 	@Override
 	public void onPressed(boolean pressed)
 	{
-		if(mButton.isPressed() && !mPressed)
-			sendKeyDown();
-		else if(mPressed && !mButton.isPressed())
-			sendKeyUp();
+		if(mButton.isPressed() != mPressed)
+			sendKeyEvent(mButton.isPressed());
 	}
 	
 	public static interface Listener
