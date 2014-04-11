@@ -198,7 +198,9 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		mLayoutParams = new WindowManager.LayoutParams(
 			WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT,
 			WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-			WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+			WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+					| WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+					| WindowManager.LayoutParams.FLAG_SPLIT_TOUCH,
 			PixelFormat.TRANSLUCENT);
 		
 		mLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
