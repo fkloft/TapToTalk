@@ -159,15 +159,13 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		mPrefs.registerOnSharedPreferenceChangeListener(this);
 		
-		onSharedPreferenceChanged(mPrefs, "pref_keycode");
-		
 		mLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 		readPosition();
 		
 		startForeground(NOTIFICATION_MAIN, new NotificationCompat.Builder(this)
 			.setSmallIcon(R.drawable.ic_launcher)
 			.setContentTitle(getString(R.string.app_name))
-			.setContentText("Overlay enabled. Tap to configure") // TODO l10n
+			.setContentText(getString(R.string.notification_text))
 			.setPriority(NotificationCompat.PRIORITY_MIN)
 			.setContentIntent(PendingIntent.getActivity(this, REQUEST_MAIN, new Intent(this, MainActivity.class), 0))
 			.build());
@@ -191,6 +189,8 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		
 		mButton = (OverlayButton) inflater.inflate(R.layout.overlay_button, null);
 		mButton.setService(this);
+		
+		onSharedPreferenceChanged(mPrefs, "pref_keycode");
 		
 		// Add layout to window manager
 		mWindowManager.addView(mButton, mLayoutParams);

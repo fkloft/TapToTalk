@@ -2,20 +2,20 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceCategory>
-		<CheckBoxPreference
-			android:key="pref_start_service"
+		<SwitchPreference
 			android:defaultValue="false"
+			android:key="pref_start_service"
 			android:title="@string/pref_start_service"/>
+
 		<CheckBoxPreference
+			android:defaultValue="false"
 			android:dependency="pref_start_service"
 			android:key="pref_move"
-			android:defaultValue="false"
 			android:title="@string/pref_move"/>
 
 		<ListPreference
-			android:title="Key to emulate"
-			android:key="pref_keycode"/>
-
+			android:key="pref_keycode"
+			android:title="Key to emulate"/>
 	</PreferenceCategory>
 
 </PreferenceScreen>

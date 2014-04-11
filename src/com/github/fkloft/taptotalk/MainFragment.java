@@ -81,18 +81,18 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 			if(isRunning && !shouldRun)
 			{
 				activity.stopService(new Intent(activity, OverlayService.class));
-				preference.setSummary("Stopping...");// TODO l10n
+				preference.setSummary(R.string.pref_start_service_summary_stopping);
 			}
 			else if(shouldRun && !isRunning)
 			{
 				activity.startService(new Intent(activity, OverlayService.class));
-				preference.setSummary("Starting...");// TODO l10n
+				preference.setSummary(R.string.pref_start_service_summary_starting);
 			}
 			else if(shouldRun && isRunning)
-				preference.setSummary("Running.");// TODO l10n
+				preference.setSummary(R.string.pref_start_service_summary_started);
 			else
-				preference.setSummary("Select to start service");// TODO l10n
-				
+				preference.setSummary(R.string.pref_start_service_summary_stopped);
+			
 			preference.setEnabled(isRunning == shouldRun);
 			mPrefMove.setEnabled(isRunning && shouldRun);
 		}
@@ -108,5 +108,12 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 				preference.setSummary("");
 			}
 		}
+		
+		mPrefMove.setSummary(
+			OverlayService.isRunning()
+					? mPrefMove.isChecked()
+							? R.string.pref_move_summary_checked
+							: R.string.pref_move_summary_unchecked
+					: R.string.pref_move_summary_disabled);
 	}
 }
