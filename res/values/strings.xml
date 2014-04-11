@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">TapToTalk</string>
+	<string name="key_playpause">Play/Pause</string>
+	<string name="key_stop">Stop</string>
+	<string name="key_next">Next</string>
+	<string name="key_previous">Previous</string>
+	<string name="key_rewind">Rewind</string>
+	<string name="key_ffw">Fast Forward</string>
+	<string name="key_play">Play</string>
+	<string name="key_pause">Pause</string>
+	<string name="key_close">Close</string>
+	<string name="key_eject">Eject</string>
+	<string name="key_record">Record</string>
+	<string name="key_unknown">Unknown key</string>
+	<string name="pref_move">Change position</string>
+	<string name="pref_start_service">Overlay enabled</string>
+	<!--
+		<string name="label_stop_service">Stop service</string>
+		<string name="label_start_service">Start service</string>
+	-->
+
+</resources>

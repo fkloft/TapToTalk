@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<dimen name="button_radius">80dip</dimen>
+	<dimen name="button_padding">8dip</dimen>
+
+</resources>
