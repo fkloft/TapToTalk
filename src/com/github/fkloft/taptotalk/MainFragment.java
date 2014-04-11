@@ -38,7 +38,8 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 		for(String key : new String[] {
 			"pref_start_service",
 			"pref_move",
-			"pref_keycode"
+			"pref_keycode",
+			"pref_padding"
 		})
 			onSharedPreferenceChanged(mPrefs, key);
 	};
@@ -93,6 +94,7 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 			else
 				preference.setSummary(R.string.pref_start_service_summary_stopped);
 			
+			((CheckBoxPreference) preference).setChecked(shouldRun);
 			preference.setEnabled(isRunning == shouldRun);
 			mPrefMove.setEnabled(isRunning && shouldRun);
 		}

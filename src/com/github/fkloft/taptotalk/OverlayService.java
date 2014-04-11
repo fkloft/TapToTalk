@@ -27,6 +27,8 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 	private static Listener listener;
 	private static final int NOTIFICATION_MAIN = 1;
 	private static final int REQUEST_MAIN = 1;
+	private static final int REQUEST_CLOSE = 2;
+	private static final String ACTION_HIDE = "com.github.kloft.taptotalk.ACTION_HIDE";
 	
 	public static boolean isRunning()
 	{
@@ -43,7 +45,18 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
-			onConfigurationChange(intent);
+			if(Intent.ACTION_CONFIGURATION_CHANGED.equals(intent.getAction()))
+			{
+				onConfigurationChange(intent);
+			}
+			else if(ACTION_HIDE.equals(intent.getAction()))
+			{
+				mPrefs
+					.edit()
+					.putBoolean("pref_start_service", false)
+					.apply();
+				stopSelf();
+			}
 		}
 	};
 	private OverlayButton mButton;
@@ -168,10 +181,13 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 			.setContentText(getString(R.string.notification_text))
 			.setPriority(NotificationCompat.PRIORITY_MIN)
 			.setContentIntent(PendingIntent.getActivity(this, REQUEST_MAIN, new Intent(this, MainActivity.class), 0))
+			.addAction(R.drawable.ic_action_remove, "Hide",
+				PendingIntent.getBroadcast(this, REQUEST_CLOSE, new Intent(ACTION_HIDE), 0))
 			.build());
 		
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
+		filter.addAction(ACTION_HIDE);
 		registerReceiver(mBroadcastReceiver, filter);
 		
 		mLayoutParams = new WindowManager.LayoutParams(
@@ -190,7 +206,11 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		mButton = (OverlayButton) inflater.inflate(R.layout.overlay_button, null);
 		mButton.setService(this);
 		
-		onSharedPreferenceChanged(mPrefs, "pref_keycode");
+		for(String key : new String[] {
+			"pref_keycode",
+			"pref_padding"
+		})
+			onSharedPreferenceChanged(mPrefs, key);
 		
 		// Add layout to window manager
 		mWindowManager.addView(mButton, mLayoutParams);
@@ -273,6 +293,11 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 			}
 			catch(NumberFormatException e)
 			{}
+		}
+		if("pref_padding".equals(key))
+		{
+			int value = mPrefs.getInt(key, 16);
+			mButton.setPadding(value, value, value, value);
 		}
 	}
 	

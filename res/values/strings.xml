@@ -15,7 +15,7 @@
 	<string name="key_record">Record</string>
 	<string name="key_unknown">Unknown key</string>
 	<string name="pref_move">Change position</string>
-	<string name="pref_move_summary_checked">Drag the button to the desired position. Select to store position.</string>
+	<string name="pref_move_summary_checked">Drag the button to the desired position.</string>
 	<string name="pref_move_summary_unchecked">Select to change button position.</string>
 	<string name="pref_move_summary_disabled">Start service to change position.</string>
 	<string name="pref_start_service">Overlay enabled</string>
