@@ -2,6 +2,7 @@
 <resources>
 
 	<string name="app_name">TapToTalk</string>
+	<string name="key_headsethook">Headset hook</string>
 	<string name="key_playpause">Play/Pause</string>
 	<string name="key_stop">Stop</string>
 	<string name="key_next">Next</string>

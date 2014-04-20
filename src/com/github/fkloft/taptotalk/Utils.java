@@ -20,7 +20,8 @@ public final class Utils
 		KeyEvent.KEYCODE_MEDIA_PLAY,
 		KeyEvent.KEYCODE_MEDIA_PAUSE,
 		KeyEvent.KEYCODE_MEDIA_CLOSE,
-		KeyEvent.KEYCODE_MEDIA_EJECT
+		KeyEvent.KEYCODE_MEDIA_EJECT,
+		KeyEvent.KEYCODE_HEADSETHOOK
 	};
 	
 	public static SparseIntArray KEYCODE_LABELS = new SparseIntArray();
@@ -28,6 +29,7 @@ public final class Utils
 	
 	static
 	{
+		KEYCODE_LABELS.append(KeyEvent.KEYCODE_HEADSETHOOK, R.string.key_headsethook);
 		KEYCODE_LABELS.append(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, R.string.key_playpause);
 		KEYCODE_LABELS.append(KeyEvent.KEYCODE_MEDIA_STOP, R.string.key_stop);
 		KEYCODE_LABELS.append(KeyEvent.KEYCODE_MEDIA_NEXT, R.string.key_next);
@@ -40,6 +42,7 @@ public final class Utils
 		KEYCODE_LABELS.append(KeyEvent.KEYCODE_MEDIA_EJECT, R.string.key_eject);
 		KEYCODE_LABELS.append(KeyEvent.KEYCODE_MEDIA_RECORD, R.string.key_record);
 		
+		KEYCODE_ICONS.append(KeyEvent.KEYCODE_HEADSETHOOK, R.drawable.ic_action_call);
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, R.drawable.ic_action_play);
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_STOP, R.drawable.ic_action_stop);
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_NEXT, R.drawable.ic_action_next);
