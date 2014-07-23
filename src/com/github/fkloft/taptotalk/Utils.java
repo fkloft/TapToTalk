@@ -8,6 +8,9 @@ public final class Utils
 {
 	public static final int KEYCODE_DEFAULT = KeyEvent.KEYCODE_MEDIA_RECORD;
 	
+	public static SparseIntArray KEYCODE_ICONS = new SparseIntArray();
+	public static SparseIntArray KEYCODE_LABELS = new SparseIntArray();
+	
 	/** must be same order as in res/values/strings.xml */
 	public static int[] KEYCODES = {
 		KeyEvent.KEYCODE_MEDIA_RECORD,
@@ -23,9 +26,6 @@ public final class Utils
 		KeyEvent.KEYCODE_MEDIA_EJECT,
 		KeyEvent.KEYCODE_HEADSETHOOK
 	};
-	
-	public static SparseIntArray KEYCODE_LABELS = new SparseIntArray();
-	public static SparseIntArray KEYCODE_ICONS = new SparseIntArray();
 	
 	static
 	{
@@ -52,12 +52,9 @@ public final class Utils
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_PLAY, R.drawable.ic_action_play);
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_PAUSE, R.drawable.ic_action_pause);
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_CLOSE, R.drawable.ic_action_remove);
-		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_EJECT, R.drawable.ic_action_remove);
+		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_EJECT, R.drawable.ic_action_collapse);
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_RECORD, R.drawable.ic_action_mic);
 	}
-	
-	private Utils()
-	{}
 	
 	public static String[] getKeycodeLabels(Context context)
 	{
@@ -74,4 +71,7 @@ public final class Utils
 			labels[i] = Integer.toString(KEYCODES[i]);
 		return labels;
 	}
+	
+	private Utils()
+	{}
 }

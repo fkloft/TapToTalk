@@ -29,5 +29,7 @@
 	<string name="pref_start_service_summary_starting">Starting…</string>
 	<string name="pref_start_service_summary_started">Running.</string>
 	<string name="pref_start_service_summary_stopped">Select to start service.</string>
+	<string name="pref_toggle">Emulate toggle mode</string>
+	<string name="pref_toggle_summary">Send key when pressing the button and send again once button is released.</string>
 
 </resources>

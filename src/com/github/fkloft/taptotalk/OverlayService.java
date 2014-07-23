@@ -1,5 +1,6 @@
 package com.github.fkloft.taptotalk;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -24,12 +25,13 @@ import android.view.WindowManager.LayoutParams;
 
 public class OverlayService extends Service implements OnSharedPreferenceChangeListener
 {
-	private static OverlayService instance = null;
-	private static Listener listener;
+	private static final String ACTION_HIDE = "com.github.kloft.taptotalk.ACTION_HIDE";
 	private static final int NOTIFICATION_MAIN = 1;
 	private static final int REQUEST_MAIN = 1;
 	private static final int REQUEST_CLOSE = 2;
-	private static final String ACTION_HIDE = "com.github.kloft.taptotalk.ACTION_HIDE";
+	
+	private static OverlayService instance = null;
+	private static Listener listener;
 	
 	public static boolean isRunning()
 	{
@@ -66,11 +68,12 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 	private int mKeyCode = Utils.KEYCODE_DEFAULT;
 	private boolean mLandscape;
 	private LayoutParams mLayoutParams;
+	private Notification mNotification;
 	private PointF mPosition = new PointF(0, 0);
 	private SharedPreferences mPrefs;
 	private boolean mPressed = false;
+	private boolean mToggle = false;
 	private WindowManager mWindowManager;
-	private Notification mNotification;
 	
 	public OverlayService()
 	{}
@@ -124,6 +127,26 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		sendOrderedBroadcast(intent, null);
 	}
 	
+	private void sendToggleEvent()
+	{
+		long time = SystemClock.uptimeMillis();
+		
+		// Note that sendOrderedBroadcast is needed since there is only
+		// one official receiver of the media button intents at a time
+		// (controlled via AudioManager) so the system needs to figure
+		// out who will handle it rather than just send it to everyone.
+		
+		KeyEvent event = new KeyEvent(time, time, KeyEvent.ACTION_DOWN, mKeyCode, 0);
+		Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+		intent.putExtra(Intent.EXTRA_KEY_EVENT, event);
+		sendOrderedBroadcast(intent, null);
+		
+		event = new KeyEvent(time, time, KeyEvent.ACTION_UP, mKeyCode, 0);
+		intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+		intent.putExtra(Intent.EXTRA_KEY_EVENT, event);
+		sendOrderedBroadcast(intent, null);
+	}
+	
 	private void updateLayout()
 	{
 		mLayoutParams.x = (int) mPosition.x;
@@ -159,10 +182,19 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 	
 	public void onButtonPressed(boolean pressed)
 	{
-		if(mButton.isPressed() != mPressed)
-			sendKeyEvent(mButton.isPressed());
+		if(pressed != mPressed)
+		{
+			if(mToggle)
+			{
+				sendToggleEvent();
+				mPressed = pressed;
+			}
+			else
+				sendKeyEvent(pressed);
+		}
 	}
 	
+	@SuppressLint("InflateParams")
 	@Override
 	public void onCreate()
 	{
@@ -215,6 +247,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		
 		for(String key : new String[] {
 			"pref_keycode",
+			"pref_toggle",
 			"pref_padding"
 		})
 			onSharedPreferenceChanged(mPrefs, key);
@@ -237,7 +270,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		unregisterReceiver(mBroadcastReceiver);
 		
 		if(mPressed)
-			sendKeyEvent(false);
+			onButtonPressed(false);
 		
 		mWindowManager.removeView(mButton);
 	}
@@ -278,7 +311,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		{
 			boolean move = mPrefs.getBoolean(key, false);
 			if(move && mPressed)
-				sendKeyEvent(false);
+				onButtonPressed(false);
 			if(!move)
 			{
 				if(mDragging)
@@ -293,7 +326,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 			try
 			{
 				if(mPressed)
-					sendKeyEvent(false);
+					onButtonPressed(false);
 				
 				mKeyCode = Integer.parseInt(mPrefs.getString(key, Integer.toString(Utils.KEYCODE_DEFAULT)));
 				mButton.setImageResource(Utils.KEYCODE_ICONS.get(mKeyCode));
@@ -315,6 +348,13 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 				startForeground(NOTIFICATION_MAIN, mNotification);
 			else
 				stopForeground(true);
+		}
+		
+		if("pref_toggle".equals(key))
+		{
+			if(mPressed)
+				onButtonPressed(false);
+			mToggle = mPrefs.getBoolean(key, false);
 		}
 	}
 	

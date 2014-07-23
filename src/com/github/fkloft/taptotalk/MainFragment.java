@@ -38,8 +38,9 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 		for(String key : new String[] {
 			"pref_start_service",
 			"pref_move",
+			"pref_padding",
+			"pref_toggle",
 			"pref_keycode",
-			"pref_padding"
 		})
 			onSharedPreferenceChanged(mPrefs, key);
 	};
