@@ -14,6 +14,12 @@
 			android:key="pref_move"
 			android:title="@string/pref_move"/>
 
+		<ListPreference
+			android:defaultValue=""
+			android:key="pref_component"
+			android:summary="Which app to control"
+			android:title="Target app"/>
+
 		<com.robobunny.SeekBarPreference
 			android:defaultValue="16"
 			android:key="pref_padding"

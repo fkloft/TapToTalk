@@ -1,6 +1,13 @@
 package com.github.fkloft.taptotalk;
 
+import java.util.List;
+
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.util.Pair;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 
@@ -54,6 +61,30 @@ public final class Utils
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_CLOSE, R.drawable.ic_action_remove);
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_EJECT, R.drawable.ic_action_collapse);
 		KEYCODE_ICONS.append(KeyEvent.KEYCODE_MEDIA_RECORD, R.drawable.ic_action_mic);
+	}
+	
+	public static Pair<CharSequence[], String[]> getComponents(Context context)
+	{
+		final Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+		final PackageManager pm = context.getPackageManager();
+		final List<ResolveInfo> targets = pm.queryBroadcastReceivers(intent, 0);
+		
+		final int length = targets.size();
+		final CharSequence[] titles = new String[length + 1];
+		final String[] components = new String[length + 1];
+		
+		titles[0] = context.getString(R.string.title_default);
+		components[0] = "";
+		
+		for(int i = 0; i < length; i++)
+		{
+			final ActivityInfo activity = targets.get(i).activityInfo;
+			
+			titles[i + 1] = activity.loadLabel(pm);
+			components[i + 1] = activity.packageName + "/" + activity.name;
+		}
+		
+		return new Pair<CharSequence[], String[]>(titles, components);
 	}
 	
 	public static String[] getKeycodeLabels(Context context)

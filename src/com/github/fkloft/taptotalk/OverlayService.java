@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -63,6 +64,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		}
 	};
 	private OverlayButton mButton;
+	private ComponentName mComponent = null;
 	private boolean mDragging = false;
 	private PointF mDragOffset = new PointF(0, 0);
 	private int mKeyCode = Utils.KEYCODE_DEFAULT;
@@ -119,6 +121,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		
 		KeyEvent event = new KeyEvent(time, time, pressed ? KeyEvent.ACTION_DOWN : KeyEvent.ACTION_UP, mKeyCode, 0);
 		Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+		intent.setComponent(mComponent);
 		intent.putExtra(Intent.EXTRA_KEY_EVENT, event);
 		// Note that sendOrderedBroadcast is needed since there is only
 		// one official receiver of the media button intents at a time
@@ -138,11 +141,13 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		
 		KeyEvent event = new KeyEvent(time, time, KeyEvent.ACTION_DOWN, mKeyCode, 0);
 		Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+		intent.setComponent(mComponent);
 		intent.putExtra(Intent.EXTRA_KEY_EVENT, event);
 		sendOrderedBroadcast(intent, null);
 		
 		event = new KeyEvent(time, time, KeyEvent.ACTION_UP, mKeyCode, 0);
 		intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+		intent.setComponent(mComponent);
 		intent.putExtra(Intent.EXTRA_KEY_EVENT, event);
 		sendOrderedBroadcast(intent, null);
 	}
@@ -247,6 +252,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		
 		for(String key : new String[] {
 			"pref_keycode",
+			"pref_component",
 			"pref_toggle",
 			"pref_padding"
 		})
@@ -334,6 +340,17 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 			}
 			catch(NumberFormatException e)
 			{}
+		}
+		
+		if("pref_component".equals(key))
+		{
+			if(mPressed)
+				onButtonPressed(false);
+			
+			String component = mPrefs.getString(key, "");
+			mComponent = null;
+			if(component != null && !"".equals(component))
+				mComponent = ComponentName.unflattenFromString(component);
 		}
 		
 		if("pref_padding".equals(key))

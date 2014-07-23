@@ -9,6 +9,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.TwoStatePreference;
+import android.util.Pair;
 
 import com.github.fkloft.taptotalk.OverlayService.Listener;
 
@@ -17,6 +18,7 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 	private ListPreference mPrefKeycode;
 	private CheckBoxPreference mPrefMove;
 	private SharedPreferences mPrefs;
+	private ListPreference mPrefComponent;
 	
 	public void onCreate(android.os.Bundle savedInstanceState)
 	{
@@ -35,9 +37,15 @@ public class MainFragment extends PreferenceFragment implements Listener, OnShar
 		mPrefKeycode.setEntries(Utils.getKeycodeLabels(getActivity()));
 		mPrefKeycode.setEntryValues(Utils.getKeycodeValues());
 		
+		Pair<CharSequence[], String[]> components = Utils.getComponents(getActivity());
+		mPrefComponent = (ListPreference) findPreference("pref_component");
+		mPrefComponent.setEntries(components.first);
+		mPrefComponent.setEntryValues(components.second);
+		
 		for(String key : new String[] {
 			"pref_start_service",
 			"pref_move",
+			"pref_component",
 			"pref_padding",
 			"pref_toggle",
 			"pref_keycode",
