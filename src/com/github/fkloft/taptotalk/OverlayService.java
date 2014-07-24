@@ -26,7 +26,7 @@ import android.view.WindowManager.LayoutParams;
 
 public class OverlayService extends Service implements OnSharedPreferenceChangeListener
 {
-	private static final String ACTION_HIDE = "com.github.kloft.taptotalk.ACTION_HIDE";
+	private static final String ACTION_CLOSE = "com.github.kloft.taptotalk.ACTION_CLOSE";
 	private static final int NOTIFICATION_MAIN = 1;
 	private static final int REQUEST_MAIN = 1;
 	private static final int REQUEST_CLOSE = 2;
@@ -53,7 +53,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 			{
 				onConfigurationChange(intent);
 			}
-			else if(ACTION_HIDE.equals(intent.getAction()))
+			else if(ACTION_CLOSE.equals(intent.getAction()))
 			{
 				mPrefs
 					.edit()
@@ -221,7 +221,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 			.setPriority(NotificationCompat.PRIORITY_MIN)
 			.setContentIntent(PendingIntent.getActivity(this, REQUEST_MAIN, new Intent(this, MainActivity.class), 0))
 			.addAction(R.drawable.ic_action_remove, getString(R.string.notification_action_hide),
-				PendingIntent.getBroadcast(this, REQUEST_CLOSE, new Intent(ACTION_HIDE), 0))
+				PendingIntent.getBroadcast(this, REQUEST_CLOSE, new Intent(ACTION_CLOSE), 0))
 			.build();
 		
 		if(mPrefs.getBoolean("pref_foreground", true))
@@ -229,7 +229,7 @@ public class OverlayService extends Service implements OnSharedPreferenceChangeL
 		
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
-		filter.addAction(ACTION_HIDE);
+		filter.addAction(ACTION_CLOSE);
 		registerReceiver(mBroadcastReceiver, filter);
 		
 		mLayoutParams = new WindowManager.LayoutParams(

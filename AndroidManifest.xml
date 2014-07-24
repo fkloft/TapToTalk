@@ -18,7 +18,7 @@
 		android:theme="@style/AppTheme">
 		<activity
 			android:name="com.github.fkloft.taptotalk.MainActivity"
-			android:configChanges="orientation|screenSize"
+			android:configChanges="keyboardHidden|orientation|screenSize"
 			android:label="@string/app_name"
 			android:launchMode="singleInstance">
 			<intent-filter>
@@ -27,23 +27,19 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
+
+		<service android:name="com.github.fkloft.taptotalk.OverlayService"/>
+
 		<activity
 			android:name=".EditActivity"
-			android:configChanges="screenSize|keyboardHidden|orientation">
+			android:configChanges="keyboardHidden|orientation|screenSize">
 			<intent-filter>
 				<action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING"/>
 			</intent-filter>
 		</activity>
 
-		<service
-			android:name="com.github.fkloft.taptotalk.OverlayService"
-			android:enabled="true"
-			android:exported="false">
-		</service>
-
 		<receiver
 			android:name=".TaskerReceiver"
-			android:exported="true"
 			tools:ignore="ExportedReceiver">
 			<intent-filter>
 				<action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
