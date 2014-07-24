@@ -32,5 +32,7 @@
 	<string name="pref_toggle">Emulate toggle mode</string>
 	<string name="pref_toggle_summary">Send key when pressing the button and send again once button is released.</string>
 	<string name="title_default">Default</string>
+	<string name="title_enable">enable</string>
+	<string name="title_disable">disable</string>
 
 </resources>

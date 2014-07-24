@@ -1,0 +1,20 @@
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/rg_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center_vertical">
+
+	<RadioButton
+		android:id="@+id/rb_enable"
+		android:layout_width="match_parent"
+		android:checked="true"
+		android:text="@string/title_enable"/>
+
+	<RadioButton
+		android:id="@+id/rb_disable"
+		android:layout_width="match_parent"
+		android:checked="false"
+		android:text="@string/title_disable"/>
+
+</RadioGroup>
