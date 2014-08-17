@@ -17,8 +17,8 @@
 		<ListPreference
 			android:defaultValue=""
 			android:key="pref_component"
-			android:summary="Which app to control"
-			android:title="Target app"/>
+			android:summary="@string/pref_component_summary"
+			android:title="@string/pref_component"/>
 
 		<com.robobunny.SeekBarPreference
 			android:defaultValue="16"
@@ -37,7 +37,7 @@
 
 		<ListPreference
 			android:key="pref_keycode"
-			android:title="Key to emulate"/>
+			android:title="@string/pref_key_to_emulate"/>
 
 		<CheckBoxPreference
 			android:defaultValue="true"
